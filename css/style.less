@@ -1,0 +1,390 @@
+@import 'less/boilerplate.less';
+@import 'less/global-mixins.less';
+@import 'less/grid.less';
+
+
+//////////
+// GRID //
+//////////
+
+// Specify the number of columns and set column and gutter widths
+@columns: 12;
+@column-width: 60;
+@gutter-width: 30;
+
+// Utility variable — you should never need to modify this
+@gridsystem-width: (@column-width*@columns) + (@gutter-width*@columns) * 1px;
+
+// Set @total-width to 100% for a fluid layout
+// @total-width: @gridsystem-width;
+@total-width: 100%;
+
+// Set margins
+@row-margin: @total-width*(((@gutter-width*.5)/@gridsystem-width)*-1);
+@column-margin: @total-width*((@gutter-width*.5)/@gridsystem-width);
+
+body {
+	width: 100%;
+	.clearfix;
+}
+
+.row(@columns:@columns) {
+	display: block;
+	width: @total-width*((@gutter-width + @gridsystem-width)/@gridsystem-width);
+	margin: 0 @row-margin;
+	.box-sizing(border-box);
+	.clearfix;
+}
+.column(@x,@columns:@columns) {
+	display: inline;
+	float: left;
+	width: @total-width*((((@gutter-width+@column-width)*@x)-@gutter-width) / @gridsystem-width);
+	margin: 0 @column-margin;
+	.box-sizing(border-box);
+}
+.push(@offset:1) {
+	margin-left: @total-width*(((@gutter-width+@column-width)*@offset) / @gridsystem-width) + @total-width*((@gutter-width*.5)/@gridsystem-width);
+}
+.pull(@offset:1) {
+	margin-right: @total-width*(((@gutter-width+@column-width)*@offset) / @gridsystem-width) + @total-width*((@gutter-width*.5)/@gridsystem-width);
+}
+
+
+////////////
+// LAYOUT //
+////////////
+
+
+
+// WRAPPERS //
+
+#header-wrapper {
+	background: #000;
+}
+
+#header-wrapper h2 {
+	display: none;
+}
+
+#top-wrapper, #footer-wrapper {
+	background: #eee;
+}
+
+#top-wrapper {
+	margin-bottom: @column-margin;
+}
+
+#header-wrapper header, #top-content, .wrapper, footer {
+	margin: 0 auto;
+	max-width: 1240px;
+	min-width: 980px;
+	overflow: auto;
+	.box-sizing(border-box);
+}
+
+#header-wrapper header, #top-content, footer {
+	padding: 0 @column-margin;
+}
+
+.wrapper {
+	border-bottom: 2px dotted #ddd;
+	margin-bottom: @column-margin*2;
+}
+
+
+// CONTENT SECTIONS //
+
+// MAIN //
+
+.content section {
+	.column(8);
+	background: #eee;
+	padding: @column-margin/2 @column-margin*2;
+	margin-bottom: @column-margin*2;
+}
+
+.results section  {
+	.column(9);
+	margin-bottom: @column-margin;
+	
+	ul {
+		.row(9);
+	
+		li {
+			.column(3,9);
+		}
+	}
+}
+
+.list section {
+	.column(12);
+	
+	ul {
+		.row(12);
+	
+		li {
+			.column(3,12);
+		}
+	}
+}
+
+.overview section {
+	.column(12);
+	
+	ul {
+		.row(12);
+	
+		li {
+			.column(4,12);
+		}
+	}
+}
+
+// SIDEBAR //
+
+.content .sidebar {
+	.column(4);
+	background: #eee;
+	padding: @column-margin/2 @column-margin*2;
+}
+
+.results .sidebar {
+	.column(3);
+	background: #eee;
+	padding: @column-margin/2 @column-margin*2;
+}
+
+
+// TABS //
+
+.content h1 {
+	.column(12);
+}
+
+.content .meta {
+	
+	p {
+		.column(8);
+		margin-bottom: @column-margin/2 !important;
+	}
+	
+	ul {
+		.column(4);
+		padding: 0;
+		list-style: none;
+		
+		li {
+			display: inline;
+		
+			a {
+				display: block;
+				float: right;
+				margin-left: 2em;
+				color: #aaa;
+				text-decoration: none;
+				text-align: right;
+				
+			}
+		}
+	}
+}
+
+
+#tabs {
+	display: inline;
+	line-height: 60px;
+	
+	ul {
+		margin-bottom: @column-margin/2 !important;
+		overflow: auto;
+		padding: 0;
+		list-style: none;
+		
+		li {
+			display: inline;
+
+			a {
+				display: block;
+				float: left;
+				color: #555;
+				background: #eee;
+				line-height: 60px;
+				text-align: center;
+				text-decoration: none;
+				.box-sizing(border-box);
+				font-size: 1.2em;
+				border-width: 1px 1px 1px 0; 
+				border-style: solid; 
+				border-color: #999999;
+			}
+		}
+		
+		li:first-child a {
+			.border-radius(0, 0, 6px, 6px);
+			border-width: 1px;
+		}
+		
+		li:last-child a {
+			.border-radius(6px, 6px, 0, 0);
+		}
+		
+	}
+	
+	ul.main {
+		.column(8);
+		
+		a {
+			width: 25%;
+		}
+	}
+	
+	ul.actions {
+		.column(4);
+		
+		a {
+			width: 50%;
+			background: #999999;
+			color: #fff;
+			font-weight: bold;
+		}
+			
+	}
+	
+}
+
+////////////////
+// REPSONSIVE //
+////////////////
+
+@media screen and (max-width: 720px) {
+	#main-content,
+	#content-sidebar {
+		.column(12);
+		border: 1px dotted #333;
+	}
+}
+
+
+////////////
+// DESIGN //
+////////////
+
+html {
+	font: 1em/1.5em "Helvetica Neue", Arial, Helvetica, Geneva, sans-serif;
+}
+
+html, body {
+	margin: 0;
+	padding: 0;
+}
+
+#header-wrapper {
+
+	a, a:visited {
+		color: #fff;
+	}
+	
+	a:hover, a:active {
+		color: #aaa;
+	}
+
+	header {
+	
+		a {
+			display: block;
+			float: left;
+			color: #fff;
+			line-height: 60px;
+			text-align: center;
+			text-decoration: none;
+			.box-sizing(border-box);
+		}
+		
+		h1 {
+		
+			margin: 0;
+			
+			a {
+				width: 16%;
+				text-align: left;
+			}
+		}
+	
+		nav {
+			display: inline;
+			line-height: 60px;
+			
+			ul {
+				display: inline;
+				margin: 0;
+				padding: 0;
+				list-style: none;
+				
+				li {
+					display: inline;
+			
+					a {
+						text-transform: uppercase;
+						width: 14%;
+						border-left: 1px solid #fff;
+					}
+				}
+				
+				.projects {
+					
+				}
+				
+				.notifications a {
+					text-transform: none;
+					
+					strong {
+						color: #000;
+						background: #fff;
+						padding: 3px 5px;
+					}
+					
+				}
+			}	
+		}
+	}
+}
+
+ul.items { 
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	
+	li {
+		background: #eee;
+		margin-bottom: @column-margin*2 !important;
+		padding: @column-margin/2 @column-margin*2;
+	}
+	
+}
+
+#previous, #next {
+	width: 40px;
+	height: 60px;
+	background: #999999;
+	color: #fff;
+	font-weight: bold;
+	text-decoration: none;
+	line-height: 60px;
+	text-align: center;
+}
+
+#previous {
+	.border-radius(6px, 6px, 0, 0);
+	display: block;
+	position: fixed;
+	top: 400px;
+	left: 0;
+}
+
+#next {
+	.border-radius(0, 0, 6px, 6px);
+	display: block;
+	position: fixed;
+	top: 400px;
+	right: 0;
+}
